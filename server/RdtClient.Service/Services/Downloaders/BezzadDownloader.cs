@@ -29,6 +29,9 @@ public class BezzadDownloader : IDownloader
 
         var settingProxyServer = Settings.Get.DownloadClient.ProxyServer;
 
+        WebProxy proxy = new WebProxy(new Uri($"socks5://nl.socks.nordhold.net"));
+        var credentials = new NetworkCredential("username", "password");
+        proxy.Credentials = credentials;
         // For all options, see https://github.com/bezzad/Downloader
         _downloadConfiguration = new()
         {
@@ -45,7 +48,8 @@ public class BezzadDownloader : IDownloader
                 ProtocolVersion = HttpVersion.Version11,
                 AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
                 KeepAlive = true,
-                UseDefaultCredentials = false
+                UseDefaultCredentials = false,
+                Proxy = proxy
             }
         };
 
